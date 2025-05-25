@@ -1,4 +1,3 @@
-
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
@@ -7,16 +6,22 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 const galleryList = document.querySelector(".gallery")
 const loader = document.querySelector(".loader")
 
+const lightbox = new SimpleLightbox('.gallery-item .gallery-link', {
+  captions: true,
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
 
 export function createGallery(images) {
 
-  const markup = cardsTemplate(images)
+  const markup = renderCards(images)
   galleryList.innerHTML = markup
   lightbox.refresh()
 
 }
 
-function cardTemplate(obj) {
+function renderCard(obj) {
   const { webformatURL, largeImageURL, tags, likes, views, comments, downloads } = obj
   const alt = tags.split(",").slice(0, 4).join(',')
 
@@ -42,8 +47,8 @@ function cardTemplate(obj) {
       </a></li>`
 }
 
-function cardsTemplate(arr) {
-  return arr.map(cardTemplate).join('\n\n\n')
+function renderCards(arr) {
+  return arr.map(renderCard).join('\n\n\n')
 }
 
 
@@ -59,12 +64,3 @@ export function showLoader() {
 export function hideLoader() {
   loader.setAttribute('hidden', 'true')
 }
-
-
-const lightbox = new SimpleLightbox('.gallery-item .gallery-link', {
-  captions: true,
-  captionsData: 'alt',
-  captionDelay: 250,
-});
-
-
