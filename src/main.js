@@ -8,10 +8,6 @@ let userData;
 let currentPage = 1;
 let maxPage = 0;
 
-// const refsBtn = {
-//   formElem: document.querySelector(".form"),
-//   loadBtnElem: document.querySelector(".load-btn"),
-// }
 
 refs.formElem.addEventListener("submit", handlerFormClick)
 refs.loadBtnElem.addEventListener("click", handlerLoadMoreClick)
@@ -24,11 +20,8 @@ async function handlerFormClick(e) {
   currentPage = 1;
 
   if (userData === '') {
-    iziToast.warning({
-      message: 'The search field is empty. Please enter a keyword.',
-      position: 'topRight'
-    })
-    return
+    notification();
+    return;
   }
 
   clearGallery();
@@ -43,31 +36,8 @@ async function handlerFormClick(e) {
   }
 
   maxPage = Math.ceil(res.totalHits / PAGE_SIZE)
-
-  loadBtnStatus();
   notification();
-
-  // .then((res) => {
-  // if (!res.length) {
-  //   iziToast.error({
-  //     message: "Sorry, there are no images matching your search query. Please try again!",
-  //     position: 'topRight',
-  //     maxWidth: 400,
-  //   })
-  //   return
-  // }
-
-
-
-  // }).catch((err) => {
-  //   iziToast.error({
-  //     message: "An error occurred. Please try again later.",
-  //     position: 'topRight',
-  //     maxWidth: 400,
-  //   })
-  // }).finally(() => {
-  //   hideLoader()
-  // })
+  loadBtnStatus();
 
   e.target.reset();
 };
@@ -83,10 +53,11 @@ async function handlerLoadMoreClick(e) {
   if (res.hits) {
     hideLoaderMore();
     loadBtnStatus();
-    createGallery(res.hits)
-  }
+    notification();
 
-  notification();
+    createGallery(res.hits)
+    BoundingClientRect();
+  }
 
 }
 
@@ -105,6 +76,7 @@ function notification() {
       message: 'The search field is empty. Please enter a keyword.',
       position: 'topRight'
     });
+    return
   };
 
   if (currentPage === maxPage) {
@@ -121,3 +93,20 @@ function notification() {
     })
   }
 }
+
+
+function BoundingClientRect() {
+  const cardElem = document.querySelector(".gallery-item");
+  if (cardElem) {
+    const rect = cardElem.getBoundingClientRect().height;
+    window.scrollBy({
+      top: rect * 2,
+      behavior: 'smooth',
+    })
+  }
+}
+
+
+
+
+
