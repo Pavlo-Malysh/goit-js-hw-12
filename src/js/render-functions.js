@@ -1,10 +1,15 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
+export const refs = {
+  galleryList: document.querySelector(".gallery"),
+  loaderSubmitElem: document.querySelector(".js-loader-submit"),
+  loaderMoreElem: document.querySelector('.js-loader-more'),
+  formElem: document.querySelector(".form"),
+  loadBtnElem: document.querySelector(".load-btn"),
+}
 
 
-const galleryList = document.querySelector(".gallery")
-const loader = document.querySelector(".loader")
 
 const lightbox = new SimpleLightbox('.gallery-item .gallery-link', {
   captions: true,
@@ -16,7 +21,7 @@ const lightbox = new SimpleLightbox('.gallery-item .gallery-link', {
 export function createGallery(images) {
 
   const markup = renderCards(images)
-  galleryList.innerHTML = markup
+  refs.galleryList.insertAdjacentHTML("beforeend", markup)
   lightbox.refresh()
 
 }
@@ -54,13 +59,29 @@ function renderCards(arr) {
 
 
 export function clearGallery() {
-  galleryList.innerHTML = '';
+  refs.galleryList.innerHTML = '';
 }
 
 export function showLoader() {
-  loader.removeAttribute('hidden')
+  refs.loaderSubmitElem.classList.remove('hidden');
 }
 
 export function hideLoader() {
-  loader.setAttribute('hidden', 'true')
+  refs.loaderSubmitElem.classList.add('hidden');
+}
+
+export function showLoadMoreButton() {
+  refs.loadBtnElem.classList.remove('hidden');
+}
+export function hideLoadMoreButton() {
+  refs.loadBtnElem.classList.add('hidden');
+}
+
+export function showLoaderMore() {
+
+  refs.loaderMoreElem.classList.remove('hidden');
+}
+export function hideLoaderMore() {
+
+  refs.loaderMoreElem.classList.add('hidden');
 }
